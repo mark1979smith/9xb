@@ -45,7 +45,9 @@ while read -r cmd; do
             # Ignore values with Whitespace as GIT complains due to quotes being removed
             message=$i
             storemessage=0
-        elif [[ $i == "-"* && $i == *"m" ]]
+        # Attempt to catch any messages set with the -m, -*m flag
+        # Upated to disallow '--' as was incorrectly matching --set-upstream
+        elif [[ $i == "-"* && $i != "--"* && $i == *"m" ]]
         then
             # ignore this as we add it seperately
             storemessage=1
