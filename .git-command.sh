@@ -3,8 +3,10 @@
 # Define the git binary path
 if command -v git 1>/dev/null 2>/dev/null; then
     GIT_BIN=`command -v git`
+    PHP_BIN=`command -v php`
 else
     GIT_BIN=git
+    PHP_BIN=php
 fi
 
 ################
@@ -45,9 +47,7 @@ while read -r cmd; do
             # Ignore values with Whitespace as GIT complains due to quotes being removed
             message=$i
             storemessage=0
-        # Attempt to catch any messages set with the -m, -*m flag
-        # Upated to disallow '--' as was incorrectly matching --set-upstream
-        elif [[ $i == "-"* && $i != "--"* && $i == *"m" ]]
+        elif [[ $i == "-"* && $i == *"m" ]]
         then
             # ignore this as we add it seperately
             storemessage=1
@@ -70,7 +70,7 @@ while test $# -gt 0; do
                             if [[ $messageLength == 0 ]]
                             then
                                 $GIT_BIN ${theargs}
-                            else	
+                            else
                                 $GIT_BIN ${theargs} -m "$message"
                             fi
                         fi
@@ -105,6 +105,30 @@ while test $# -gt 0; do
                             fi
                         fi
                         $GIT_BIN ${theargs}
+                        exit 0
+                        ;;
+                add)
+                        for i in "$@"
+                        do
+                                if [ "$i" = "$1" ]
+                                then
+                                        continue
+                                fi
+                                tput setaf 1
+                                out="$($PHP_BIN -l $i)"
+                                tput sgr 0
+                                if [[ $out == "Errors parsing "* ]]; then
+                                        tput setaf 3
+                                        echo $out
+                                        tput sgr 0
+                                else
+                                        tput setaf 2
+                                        echo $out
+                                        tput sgr 0
+
+                                        $GIT_BIN $1 $i
+                                fi
+                        done
                         exit 0
                         ;;
                 *)
