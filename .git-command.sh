@@ -76,6 +76,17 @@ while test $# -gt 0; do
                         fi
                         exit 0
                         ;;
+                pull)
+                         out=$($GIT_BIN diff --name-only --diff-filter=U)
+                        outLength=${#out}
+                        if [[ $outLength > 0 ]]
+                        then
+                                displayConflicts
+                        else
+                                $GIT_BIN ${theargs}
+                        fi
+                        exit 0
+                        ;;
                 merge)
                         # Issue command
                         $GIT_BIN ${theargs}
