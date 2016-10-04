@@ -77,13 +77,14 @@ while test $# -gt 0; do
                         exit 0
                         ;;
                 pull)
-                         out=$($GIT_BIN diff --name-only --diff-filter=U)
+                        $GIT_BIN ${theargs}
+                        
+                        # Check for conflicts
+                        out=$($GIT_BIN diff --name-only --diff-filter=U)
                         outLength=${#out}
                         if [[ $outLength > 0 ]]
                         then
                                 displayConflicts
-                        else
-                                $GIT_BIN ${theargs}
                         fi
                         exit 0
                         ;;
