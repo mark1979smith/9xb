@@ -164,7 +164,7 @@ while test $# -gt 0; do
                         ;;
                 cleanup)
                         $GIT_BIN fetch
-                        $GIT_BIN branch --merged master | grep -v 'master$' | xargs git branch -d
+                        $GIT_BIN branch --merged master | grep -v 'master$' | xargs git branch -D
                         exit 0
                         ;;
                 *)
