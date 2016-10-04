@@ -135,6 +135,34 @@ while test $# -gt 0; do
                         done
                         exit 0
                         ;;
+                self-update)
+                        echo "Performing self-update..."
+                        wget --quiet --output-document=$0.tmp http://bit.ly/2dOAc6m
+                         # Copy over modes from old version
+                        OCTAL_MODE=$(stat -c '%a' $0)
+                        chmod $OCTAL_MODE $0.tmp
+
+                        case ${OCTAL_MODE:--1} in
+                           -[1] )
+                                printf "Error : OCTAL_MODE was empty\n"
+                                exit 1
+                                ;;
+                           777|775|755 ) : nothing ;;
+                           * )
+                                printf "Error in OCTAL_MODEs, found value=${OCTAL_MODE}\n"
+                                exit 1
+                                ;;
+                        esac
+
+                        if  ! chmod $OCTAL_MODE $0.tmp ; then
+                                echo "error on chmod $OCTAL_MODE %0.tmp, can't continue"
+                                exit 1
+                        fi
+                        
+                        mv $0.tmp "$0":
+                        exit 0
+                        ;;
+
                 *)
                         echo "DEFAULT: $GIT_BIN ${theargs}"
                         $GIT_BIN ${theargs}
