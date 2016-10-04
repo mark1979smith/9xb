@@ -159,7 +159,7 @@ while test $# -gt 0; do
                                 exit 1
                         fi
                         
-                        mv $0.tmp "$0":
+                        mv $0.tmp "$0"
                         exit 0
                         ;;
 
