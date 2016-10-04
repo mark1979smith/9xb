@@ -162,7 +162,11 @@ while test $# -gt 0; do
                         mv $0.tmp "$0"
                         exit 0
                         ;;
-
+                cleanup)
+                        $GIT_BIN fetch
+                        $GIT_BIN branch --merged master | grep -v 'master$' | xargs git branch -d
+                        exit 0
+                        ;;
                 *)
                         echo "DEFAULT: $GIT_BIN ${theargs}"
                         $GIT_BIN ${theargs}
