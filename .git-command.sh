@@ -134,12 +134,12 @@ while test $# -gt 0; do
                                             tput setaf 2
                                             echo $out
                                             tput sgr 0
+                                            
+                                            $GIT_BIN $1 $i
                                     else
                                             tput setaf 3
                                             echo $out
                                             tput sgr 0
-
-                                            $GIT_BIN $1 $i
                                     fi
                                 else 
                                     $GIT_BIN $1 $i
