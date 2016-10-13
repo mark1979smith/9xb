@@ -130,12 +130,12 @@ while test $# -gt 0; do
                                     tput setaf 1
                                     out="$($PHP_BIN -l $i)"
                                     tput sgr 0
-                                    if [[ $out == "Errors parsing "* ]]; then
-                                            tput setaf 3
+                                    if [[ $out == "No syntax errors detected "* ]]; then
+                                            tput setaf 2
                                             echo $out
                                             tput sgr 0
                                     else
-                                            tput setaf 2
+                                            tput setaf 3
                                             echo $out
                                             tput sgr 0
 
