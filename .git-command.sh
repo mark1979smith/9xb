@@ -130,9 +130,10 @@ while test $# -gt 0; do
                                 outLength=${#out}
                                 if [[ $outLength > 0 ]]
                                 then
-                                    tput setaf 3
+                                    tput setaf 4
                                     echo $i
                                     echo "This file remains in conflict and will not be added"
+                                    tput sgr 0
                                 else
                                     if [[ $i == *".ph"* ]]; then
                                         tput setaf 1
