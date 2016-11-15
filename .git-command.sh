@@ -131,7 +131,7 @@ while test $# -gt 0; do
                                 if [[ $outLength > 0 ]]
                                 then
                                     tput setaf 3
-                                    echo $1
+                                    echo $i
                                     echo "This file remains in conflict and will not be added"
                                 else
                                     if [[ $i == *".ph"* ]]; then
