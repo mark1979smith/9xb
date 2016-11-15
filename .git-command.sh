@@ -126,23 +126,32 @@ while test $# -gt 0; do
                                 then
                                         continue
                                 fi
-                                if [[ $i == *".ph"* ]]; then
-                                    tput setaf 1
-                                    out="$($PHP_BIN -l $i)"
-                                    tput sgr 0
-                                    if [[ $out == "No syntax errors detected "* ]]; then
-                                            tput setaf 2
-                                            echo $out
-                                            tput sgr 0
-                                            
-                                            $GIT_BIN $1 $i
-                                    else
-                                            tput setaf 3
-                                            echo $out
-                                            tput sgr 0
+                                out=$($GIT_BIN diff --name-only --diff-filter=U $i)
+                                outLength=${#out}
+                                if [[ $outLength > 0 ]]
+                                then
+                                    tput setaf 3
+                                    echo $1
+                                    echo "This file remains in conflict and will not be added"
+                                else
+                                    if [[ $i == *".ph"* ]]; then
+                                        tput setaf 1
+                                        out="$($PHP_BIN -l $i)"
+                                        tput sgr 0
+                                        if [[ $out == "No syntax errors detected "* ]]; then
+                                                tput setaf 2
+                                                echo $out
+                                                tput sgr 0
+
+                                                $GIT_BIN $1 $i
+                                        else
+                                                tput setaf 3
+                                                echo $out
+                                                tput sgr 0
+                                        fi
+                                    else 
+                                        $GIT_BIN $1 $i
                                     fi
-                                else 
-                                    $GIT_BIN $1 $i
                                 fi
                         done
                         exit 0
